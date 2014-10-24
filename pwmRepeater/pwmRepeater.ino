@@ -13,7 +13,6 @@ void setup() {
 
 void loop() {
   //analogWrite(pwmOut, pulseIn(pwmIN, HIGH)/7);
-  //Serial.println(pulseIn(resultIN, HIGH));
-  Serial.println(analogRead(3));
+  Serial.println(pulseIn(resultIN, HIGH));
   delay(100);
 }
