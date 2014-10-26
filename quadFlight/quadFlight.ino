@@ -36,8 +36,11 @@ void setup() {
   initSensors(); // Initialize Sensors
 }
 
+int throttle = 0;
+
 void loop() {
-  if(pulseIn(toggleIn, HIGH)<1200) { //// 0 Signal
+  throttle = pulseIn(toggleIn, HIGH);
+  if(throttle<990) { //// 0 Signal
     zeroRoutine();
   } else { //// Flight Routine
     updateSensors();
@@ -76,7 +79,7 @@ void calculateHold() {
   // **** Play With These Nums **** //
   altDiff = alt-(startAltitude+desiredAltitude);
   //holdSpeed = abs(altDiff)*10+50;
-  holdSpeed=32;
+  holdSpeed=(throttle-950)/15;
   pitchCorrect = ((roll/3.5)+pitchCorrect)/2;
   rollCorrect = ((pitch/3.5)+rollCorrect)/2;
   //rotateCorrect = (heading > 180 ? heading-360 : heading)/20;
@@ -121,7 +124,7 @@ void updateMotors() {
 //////// -------- Sensors ------- ////////
 void initSensors() {
   if(!accel.begin()) {
-    Serial.println(F("No LSM303 detected - accel"));
+    Serial.println(("No LSM303 detected - accel"));
     while(1);
   }
   if(!mag.begin()) {
