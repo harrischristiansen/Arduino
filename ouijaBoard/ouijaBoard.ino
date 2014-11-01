@@ -11,7 +11,7 @@ char runningQue[40];
 char inChar=-1;
 byte index = 0;
 
-int motorSpeed = 100; // 100 Units/Sec
+int motorSpeed = 1000; // 100 Units/Sec
 
 int coordinatesTable[39][3] = {
   100,100,'a',
@@ -87,7 +87,7 @@ void printArray() {
 
 void goTo() {
   int nextPos = getNextPos();
-  if(nextPos == -1) { return; }
+  if(nextPos>40 || nextPos<0) { return; }
   
   Serial.print("At: ");
   Serial.print(x);
@@ -95,8 +95,8 @@ void goTo() {
   Serial.print(coordinatesTable[nextPos][0]);
   
   // Determine Time In Each Direction
-  int xMoveTime = 1000*(abs(x-coordinatesTable[nextPos][0])/motorSpeed);
-  int yMoveTime = 1000*(abs(y-coordinatesTable[nextPos][1])/motorSpeed);
+  int xMoveTime = 1000*(abs(x-coordinatesTable[nextPos][0])/(float)motorSpeed);
+  int yMoveTime = 1000*(abs(y-coordinatesTable[nextPos][1])/(float)motorSpeed);
   Serial.print(" Moving: ");
   Serial.println(xMoveTime);
   
@@ -131,7 +131,7 @@ char getNextPos() {
   }
   
   for(int i = 0; i <= 39; i++) {
-    if(returnChar == char(coordinatesTable[i][2])) {
+    if(returnChar == (char)coordinatesTable[i][2]) {
       return i;
     }
   }

@@ -5,7 +5,7 @@ int pwmIN = 3;
 int pwmOut = 9;
 int resultIN = 10;
 
-int currentSpeed = 0;
+int currentSpeed = 1500;
 
 void setup() {
   pinMode(pwmIN, INPUT);
