@@ -18,10 +18,10 @@ int coordinatesTable[40][3] = {
   89,168,'i', 85,168,'j', 78,168,'k', 71,168,'l', 65,168,'m', 58,168,'n', 52,168,'o', 46,168,'p', 40,168,'q', 35,168,'r',
               85,174,'s', 78,174,'t', 71,174,'u', 65,174,'v', 58,174,'w', 52,174,'x', 46,174,'y', 40,174,'z',
   89,180,'0', 85,180,'1', 78,180,'2', 71,180,'3', 65,180,'4', 58,180,'5', 52,180,'6', 46,180,'7', 40,180,'8', 35,180,'9',
-  90,155,'+',//Yo
-  34,155,'&',//End of Sent
-  0,0,'!',//Do Corners
-  0,0,'.'//SPACE
+  90,155,'+', //Yo
+  34,155,'&', //End of Sent
+  0,0,'!', //Do Corners
+  0,0,'.' //SPACE
 };
 
 void setup() {
@@ -57,6 +57,7 @@ void printArray() {
   Serial.println(runningQue);
 }
 
+int lastPos = 0;
 void goTo() {
   int nextPos = getNextPos();
   if(nextPos>39 || nextPos<0) { return; }
@@ -83,11 +84,21 @@ void goTo() {
   Serial.println(coordinatesTable[nextPos][1]);
   
   // Set Angles
-  servoX.write(coordinatesTable[nextPos][0]);
-  servoY.write(coordinatesTable[nextPos][1]);
-  delay(100);
-  servoX.write(coordinatesTable[nextPos][0]);
-  servoY.write(coordinatesTable[nextPos][1]);
+  if(nextPos == lastPos) {
+    servoX.write(coordinatesTable[nextPos][0]);
+    servoY.write(coordinatesTable[nextPos][1]-10);
+    delay(100);
+    servoX.write(coordinatesTable[nextPos][0]);
+    servoY.write(coordinatesTable[nextPos][1]);
+  } else {
+    servoX.write(coordinatesTable[nextPos][0]);
+    servoY.write(coordinatesTable[nextPos][1]);
+    delay(100);
+    servoX.write(coordinatesTable[nextPos][0]);
+    servoY.write(coordinatesTable[nextPos][1]);
+  }
+  
+  lastPos = nextPos;
 }
 
 char getNextPos() {
