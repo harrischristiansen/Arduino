@@ -60,7 +60,7 @@ void printArray() {
 void goTo() {
   int nextPos = getNextPos();
   if(nextPos>39 || nextPos<0) { return; }
-  if(nextPos == 39) { delay(400); return; }
+  if(nextPos == 39) { return; }
   if(nextPos == 38) { // Show Corners
     servoX.write(85);
     servoY.write(162);
