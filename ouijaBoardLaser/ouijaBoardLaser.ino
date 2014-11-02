@@ -60,6 +60,8 @@ void setup() {
   // Servo Setup
   servoX.attach(motorX);
   servoY.attach(motorY);
+  servoX.write(34);
+  servoY.write(155);
   
   // Music Setup
   pinMode(5, OUTPUT);
