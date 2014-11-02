@@ -11,48 +11,17 @@ char runningQue[40];
 char inChar=-1;
 byte index = 0;
 
-int motorSpeed = 1000; // 100 Units/Sec
+int motorSpeed = 50;
 
-int coordinatesTable[39][3] = {
-  100,100,'a',
-  200,200,'b',
-  300,300,'c',
-  400,400,'d',
-  500,500,'e',
-  600,600,'f',
-  700,700,'g',
-  800,800,'h',
-  900,900,'i',
-  1000,1000,'j',
-  1100,1100,'k',
-  1200,1200,'l',
-  1300,1300,'m',
-  1400,1400,'n',
-  1500,1500,'o',
-  1600,1600,'p',
-  1700,1700,'q',
-  1800,1800,'r',
-  1900,1900,'s',
-  2000,2000,'t',
-  2100,2100,'u',
-  2200,2200,'v',
-  2300,2300,'w',
-  2400,2400,'x',
-  2500,2500,'y',
-  2600,2600,'z',
-  2700,2700,'0',
-  2800,2800,'1',
-  2900,2900,'2',
-  3000,3000,'3',
-  3100,3100,'4',
-  3200,3200,'5',
-  3300,3300,'6',
-  3400,3400,'8',
-  3500,3500,'9',
-  3600,3600,'+',//YES
-  3700,3700,'-',//NO
-  3800,3800,'!',//GOODBYE
-  3900,3900,'.'//SPACE
+int coordinatesTable[40][3] = {
+                200,50,'a', 250,200,'b', 300,200,'c', 350,200,'d', 400,200,'e', 450,200,'f', 500,200,'g', 550,200,'h',
+  150,400,'i', 190,400,'j', 225,400,'k', 275,400,'l', 325,400,'m', 375,400,'n', 425,400,'o', 475,400,'p', 525,400,'q', 575,400,'r',
+                200,600,'s', 250,600,'t', 300,600,'u', 350,600,'v', 400,600,'w', 450,600,'x', 500,600,'y', 550,600,'z',
+  150,800,'0', 190,800,'1', 225,800,'2', 275,800,'3', 325,800,'4', 375,800,'5', 425,800,'6', 475,800,'7', 525,800,'8', 575,800,'9',
+  150,50,'+',//Yo
+  350,50,'&',//End of Sent
+  0,0,'!',//Unused
+  0,0,'.'//SPACE
 };
 
 void setup() {
@@ -66,6 +35,7 @@ void loop() {
   while(runningQue[0] != '\0') {
     printArray();
     goTo();
+    delay(300);
   }
 }
 
@@ -87,7 +57,8 @@ void printArray() {
 
 void goTo() {
   int nextPos = getNextPos();
-  if(nextPos>40 || nextPos<0) { return; }
+  if(nextPos>39 || nextPos<0) { return; }
+  if(nextPos == 39) { delay(1000); return; }
   
   Serial.print("At: ");
   Serial.print(x);
@@ -101,8 +72,8 @@ void goTo() {
   Serial.println(xMoveTime);
   
   // Set Movement In Direction
-  analogWrite(motorX, (x<coordinatesTable[nextPos][0]) ? 5500 : 5600);
-  analogWrite(motorY, (y<coordinatesTable[nextPos][1]) ? 5500 : 5600);
+  analogWrite(motorX, (x<coordinatesTable[nextPos][0]) ? 5600 : 5528);
+  analogWrite(motorY, (y<coordinatesTable[nextPos][1]) ? 5528 : 5600);
   
   // Stop Movement In First Direction
   delay((xMoveTime<yMoveTime)?xMoveTime:yMoveTime);
