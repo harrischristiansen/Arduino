@@ -24,11 +24,45 @@ int coordinatesTable[40][3] = {
   0,0,'.' //SPACE
 };
 
+int noteFreqArr[24] = { // For Music
+ // First Octave
+ 523.3, // C  0
+ 554.4, // C# 1
+ 587.3, // D  2
+ 622.3, // Ef 3
+ 659.3, // E  4
+ 698.5, // F  5
+ 740.0, // F# 6
+ 784.0, // G  7
+ 830.6, // G# 8
+ 880.0, // A  9
+ 932.3, // Bf 10
+ 987.8, // B  11
+ // Second Octave 
+ 1047, // C 12
+ 1109,  // C# 13
+ 1175,  // D 14
+ 1245,  // Ef 15
+ 1319,  // E 16
+ 1397,  // F 17
+ 1480,  // F# 18
+ 1568,  // G 19
+ 1661,  // G# 20
+ 1760,  // A  21
+ 1865,  // Bf  22
+ 1976   // B   23
+};
+
 void setup() {
   Serial.begin(57600);
   runningQue[0] = '\0';
+  
+  // Servo Setup
   servoX.attach(motorX);
   servoY.attach(motorY);
+  
+  // Music Setup
+  pinMode(5, OUTPUT);
 }
 
 void loop() {
@@ -93,6 +127,9 @@ void goTo() {
   } else {
     servoX.write(coordinatesTable[nextPos][0]);
     servoY.write(coordinatesTable[nextPos][1]);
+    if(nextPos == 36) {
+      playSongOne();
+    }
     delay(100);
     servoX.write(coordinatesTable[nextPos][0]);
     servoY.write(coordinatesTable[nextPos][1]);
@@ -115,3 +152,46 @@ char getNextPos() {
   
   return -1; // Char Not Found
 }
+
+//// Music ////
+
+void playNote(int noteInt, long length, long breath = 20) {
+ length = length - breath;
+ buzz(5, noteFreqArr[noteInt], length);
+ if(breath > 0) { //take a short pause or 'breath' if specified
+   delay(breath);
+ }
+}
+
+void buzz(int targetPin, long frequency, long length) {
+ long delayValue = 1000000/frequency/2; // calculate the delay value between transitions
+ //// 1 second's worth of microseconds, divided by the frequency, then split in half since
+ //// there are two phases to each cycle
+ long numCycles = frequency * length/ 1000; // calculate the number of cycles for proper timing
+ //// multiply frequency, which is really cycles per second, by the number of seconds to 
+ //// get the total number of cycles to produce
+ for (long i=0; i < numCycles; i++){ // for the calculated length of time...
+   digitalWrite(targetPin,HIGH); // write the buzzer pin high to push out the diaphram
+   delayMicroseconds(delayValue); // wait for the calculated delay value
+   digitalWrite(targetPin,LOW); // write the buzzer pin low to pull back the diaphram
+   delayMicroseconds(delayValue); // wait againf or the calculated delay value
+ }
+}
+
+void playSongOne() {
+   playNote(12, 300);
+   playNote(19, 300);
+   playNote(23, 300);
+   playNote(18, 300);
+  
+   playNote(12, 300);
+   playNote(19, 300);
+   playNote(23, 300);
+   playNote(18, 300);
+  
+   playNote(12, 300);
+   playNote(19, 300);
+   playNote(23, 300);
+   playNote(18, 300);
+}
+
