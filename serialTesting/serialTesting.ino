@@ -3,7 +3,7 @@
 // Serial Testing At HackMizzou
 
 void setup() {
-  Serial.begin(57600);
+  Serial.begin(115200);
   Serial.println("Started");
 }
 
@@ -11,7 +11,7 @@ char inChar=-1;
 bool justIn = false;
 
 void loop() {
-  delay(20);
+  delay(40);
   while(Serial.available() > 0) {
    inChar = Serial.read();
    Serial.print(inChar);
