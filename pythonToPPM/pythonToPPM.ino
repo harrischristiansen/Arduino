@@ -18,7 +18,7 @@ int roll = 0;
 int yaw = 0;
 int y = 0;
 
-void setup(){  
+void setup(){
   for(int i=0; i<chanel_number; i++) {
     ppm[i]= default_servo_value;
   }
