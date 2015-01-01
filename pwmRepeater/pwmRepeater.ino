@@ -10,17 +10,17 @@ int currentSpeed = 1500;
 void setup() {
   pinMode(pwmIN, INPUT);
   pinMode(resultIN, INPUT);
-  Serial.begin(57600);
+  Serial.begin(115200);
   Serial.setTimeout(1);
 }
 
 void loop() {
   //analogWrite(pwmOut, pulseIn(pwmIN, HIGH)/7);
-  //Serial.println(pulseIn(resultIN, HIGH));
-  if(Serial.available() > 0) {
+  Serial.println(pulseIn(resultIN, HIGH));
+  /*if(Serial.available() > 0) {
     currentSpeed = Serial.parseInt();
     Serial.println(currentSpeed);
   }
-  analogWrite(pwmOut, currentSpeed);
+  analogWrite(pwmOut, currentSpeed);*/
   delay(100);
 }
