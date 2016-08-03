@@ -18,6 +18,7 @@ int green=0;
 int blue=0;
 
 void loop() {
+  /*
   // Rainbow Wheel
   for(int x=0;x<16;x++) {
     color=x+start;
@@ -34,8 +35,9 @@ void loop() {
   }
   start++; // Step To Next Step
   if(start==16) { start=0; }
+  */
   
-  /*
+  
   // Fader
   if((red!=0&&blue!=0)||blue==255) {
     blue--;
@@ -52,7 +54,7 @@ void loop() {
   for(int x=0;x<16;x++) {
     strip.setPixelColor(x, strip.Color(red, green, blue));
   }
-  */
+  
   
   strip.show();
   delay(100); // 100=chaser, 10=fader
