@@ -1,6 +1,5 @@
 // Harris Christiansen (HarrisChristiansen.com)
 // 2014-10-13
-// iDrone.com
 
 // Includes
 #include <Wire.h>
