@@ -3,8 +3,9 @@
 
 #include <Adafruit_NeoPixel.h>
 
-#define PIN 6
-#define NUMLEDS 100
+#define PIN         6
+#define NUMLEDS     100
+#define CHASERCOUNT NUMLEDS*10
 
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUMLEDS, PIN, NEO_KHZ800 + NEO_GRB);
 
@@ -24,24 +25,27 @@ int keepChaser[NUMLEDS];
 
 void loop() {
   
-  // Rainbow Wheel
+  // Light Chaser
+  
   for (int x=0; x<NUMLEDS; x++) {
-    color = (x+start) % NUMLEDS;
-    color = (int) color/5;
-    if(color==0) {
-      strip.setPixelColor(x, strip.Color(255, 0, 0));
+    keepChaser[x] = 0;
+
+    if (x < start-20) {
+      strip.setPixelColor(x, strip.Color(0, 0, 0));
+    } else if (x < start-10) {
+      int blueColor = 255 * (x-start-10) / 10;
+      strip.setPixelColor(x, strip.Color(0, 0, blueColor));
       keepChaser[x] = 1;
-    } else if(color==1) {
+    } else if (x < start-5) {
       strip.setPixelColor(x, strip.Color(0, 255, 0));
       keepChaser[x] = 1;
-    } else {
-      strip.setPixelColor(x, strip.Color(0, 0, 255));
-      keepChaser[x] = 0;
+    } else if (x <= start) {
+      strip.setPixelColor(x, strip.Color(255, 0, 0));
+      keepChaser[x] = 1;
     }
-    
   }
   start++; // Step To Next Step
-  if (start==NUMLEDS) { start=0; }
+  if (start>=CHASERCOUNT) { start=0; }
   
   // Fader
   if((red!=0&&blue!=0)||blue==255) {
