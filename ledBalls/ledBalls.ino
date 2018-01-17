@@ -54,6 +54,7 @@ void loop() {
   if (start>=CHASERCOUNT) { start=0; }
   
   // Fader
+  /*
   if((red!=0&&blue!=0)||blue==255) {
     blue--;
     red++;
@@ -66,20 +67,35 @@ void loop() {
     green--;
     blue++;
   }
+  for(int x=0; x<NUMLEDS; x++) {
+    if (keepChaser[x] != 1) {
+      if (x % 2 == 0) {
+        strip.setPixelColor(x, strip.Color(red, green, blue));
+      } else {
+        strip.setPixelColor(x, strip.Color(255-red, 255-green, 255-blue));
+      }
+    }
+  }
   for(int x=77; x<90; x++) {
     if (keepChaser[x] != 1) {
       strip.setPixelColor(x, strip.Color(red, green, blue));
     }
   }
-  /*
-  for(int x=0; x<NUMLEDS; x++) {
-    if (x % 2 == 0) {
-      strip.setPixelColor(x, strip.Color(red, green, blue));
-    } else {
-      strip.setPixelColor(x, strip.Color(255-red, 255-green, 255-blue));
+  */
+
+  // Frozen Theme
+  for (int x=0; x<NUMLEDS; x++) {
+    if (keepChaser[LIGHTMAP[x]] != 1) {
+      int modVal = ((start/6)+x) % 2;
+      if ((start/3+x) % 40 >= 39) {
+        strip.setPixelColor(LIGHTMAP[x], strip.Color(20, 200, 195));
+      } else if (modVal == 0) {
+        strip.setPixelColor(LIGHTMAP[x], strip.Color(0, 0, 255));
+      } else {
+        strip.setPixelColor(LIGHTMAP[x], strip.Color(125, 160, 251));
+      }
     }
   }
-  */
   
   strip.show();
   delay(100); // 100=chaser, 10=fader
