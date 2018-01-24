@@ -84,15 +84,31 @@ void loop() {
   */
 
   // Frozen Theme
+  /*
   for (int x=0; x<NUMLEDS; x++) {
     if (keepChaser[LIGHTMAP[x]] != 1) {
       int modVal = ((start/6)+x) % 2;
       if ((start/3+x) % 40 >= 39) {
-        strip.setPixelColor(LIGHTMAP[x], strip.Color(20, 200, 195));
+        strip.setPixelColor(LIGHTMAP[x], strip.Color(20, 200, 195)); // Pink
       } else if (modVal == 0) {
-        strip.setPixelColor(LIGHTMAP[x], strip.Color(0, 0, 255));
+        strip.setPixelColor(LIGHTMAP[x], strip.Color(0, 0, 255)); // Blue
       } else {
-        strip.setPixelColor(LIGHTMAP[x], strip.Color(125, 160, 251));
+        strip.setPixelColor(LIGHTMAP[x], strip.Color(125, 160, 251)); // Blue White
+      }
+    }
+  }
+  */
+
+  // Cactus Theme
+  for (int x=0; x<NUMLEDS; x++) {
+    if (keepChaser[LIGHTMAP[x]] != 1) {
+      int modVal = ((start/8)+x) % 2;
+      if ((start/4+x) % 40 >= 39) {
+        strip.setPixelColor(LIGHTMAP[x], strip.Color(210, 250, 0)); // Yellow
+      } else if (modVal == 0) {
+        strip.setPixelColor(LIGHTMAP[x], strip.Color(255, 0, 0)); // Green
+      } else {
+        strip.setPixelColor(LIGHTMAP[x], strip.Color(0, 130, 130)); // Purple
       }
     }
   }
