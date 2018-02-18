@@ -14,14 +14,15 @@ void setup() {
   strip.show(); // Initialize all pixels to 'off'
 }
 
-int start=0;
-int color=0;
+int loopCount = 0;
+int start = 0;
 
-int red=255;
-int green=0;
-int blue=0;
-
-int keepChaser[NUMLEDS];
+uint32_t colorYellow = strip.Color(210, 250, 0);
+uint32_t colorGreen = strip.Color(255, 0, 0);
+uint32_t colorPurple = strip.Color(0, 130, 130);
+uint32_t colorWhiteBlue = strip.Color(125, 160, 251);
+uint32_t colorBlue = strip.Color(0, 0, 255);
+uint32_t colorPink = strip.Color(20, 200, 195);
 
 const int LIGHTMAP[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
                 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
@@ -29,10 +30,8 @@ const int LIGHTMAP[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
                 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 81, 77, 86, 82, 78,
                 87, 83, 79, 88, 84, 80, 89, 85, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99};
 
-void loop() {
-  
-  // Light Chaser
-  
+int keepChaser[NUMLEDS];
+void renderLightChaser() {
   for (int x=0; x<NUMLEDS; x++) {
     keepChaser[LIGHTMAP[x]] = 0;
 
@@ -50,11 +49,13 @@ void loop() {
       keepChaser[LIGHTMAP[x]] = 1;
     }
   }
-  start++; // Step To Next Step
-  if (start>=CHASERCOUNT) { start=0; }
-  
-  // Fader
-  /*
+}
+
+
+int red = 255;
+int green = 0;
+int blue = 0;
+void renderFader() {
   if((red!=0&&blue!=0)||blue==255) {
     blue--;
     red++;
@@ -81,37 +82,70 @@ void loop() {
       strip.setPixelColor(x, strip.Color(red, green, blue));
     }
   }
-  */
+}
 
-  // Frozen Theme
-  /*
+void renderFrozen() {
   for (int x=0; x<NUMLEDS; x++) {
     if (keepChaser[LIGHTMAP[x]] != 1) {
       int modVal = ((start/6)+x) % 2;
       if ((start/3+x) % 40 >= 39) {
-        strip.setPixelColor(LIGHTMAP[x], strip.Color(20, 200, 195)); // Pink
+        strip.setPixelColor(LIGHTMAP[x], strip.Color(20, 200, 195));
       } else if (modVal == 0) {
-        strip.setPixelColor(LIGHTMAP[x], strip.Color(0, 0, 255)); // Blue
+        strip.setPixelColor(LIGHTMAP[x], colorBlue);
       } else {
-        strip.setPixelColor(LIGHTMAP[x], strip.Color(125, 160, 251)); // Blue White
+        strip.setPixelColor(LIGHTMAP[x], colorWhiteBlue);
       }
     }
   }
-  */
+}
 
-  // Cactus Theme
+void renderCactus() {
   for (int x=0; x<NUMLEDS; x++) {
     if (keepChaser[LIGHTMAP[x]] != 1) {
       int modVal = ((start/8)+x) % 2;
       if ((start/4+x) % 40 >= 39) {
-        strip.setPixelColor(LIGHTMAP[x], strip.Color(210, 250, 0)); // Yellow
+        strip.setPixelColor(LIGHTMAP[x], colorYellow);
       } else if (modVal == 0) {
-        strip.setPixelColor(LIGHTMAP[x], strip.Color(255, 0, 0)); // Green
+        strip.setPixelColor(LIGHTMAP[x], colorGreen);
       } else {
-        strip.setPixelColor(LIGHTMAP[x], strip.Color(0, 130, 130)); // Purple
+        strip.setPixelColor(LIGHTMAP[x], colorPurple);
       }
     }
   }
+}
+
+void renderBirthday() {
+  for (int x=0; x<NUMLEDS; x++) {
+    if (keepChaser[LIGHTMAP[x]] != 1) {
+      int modVal = ((start/8)+x) % 2;
+      if ((start/4+x) % 40 >= 39) {
+        strip.setPixelColor(LIGHTMAP[x], colorPink);
+      } else if (modVal == 0) {
+        strip.setPixelColor(LIGHTMAP[x], colorBlue); 
+      } else {
+        strip.setPixelColor(LIGHTMAP[x], colorPurple);
+      }
+    }
+  }
+}
+
+void loop() {
+  
+  // Light Chaser
+  renderLightChaser();
+  
+  // Main Theme
+  if (loopCount % 2 == 0) {
+    renderFrozen();
+  } else {
+    renderBirthday();
+  }
+  
+  start++; // Step To Next Step
+  if (start>=CHASERCOUNT) {
+    start=0;
+    loopCount++;
+    }
   
   strip.show();
   delay(100); // 100=chaser, 10=fader
