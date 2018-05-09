@@ -27,8 +27,9 @@ void loop() {
 
   if (totalcount < 100) { // Blackness With Flashes
     currentDelay = 100;
+    int flashled = random(0,NUM_LEDS);
     for (int x=0; x<NUM_LEDS; x++) {
-      if (totalcount*7 % NUM_LEDS == x) {
+      if (x == flashled) {
         strip.setPixelColor(x, strip.Color(200, 200, 200));
       } else {
         strip.setPixelColor(x, strip.Color(0, 0, 0));
@@ -37,7 +38,10 @@ void loop() {
   } else if (totalcount < 200) { // Fade In
     currentDelay = 100;
     for (int x=0; x<NUM_LEDS; x++) {
-      int brightness = (totalcount-100)*255/100;
+      int adjustby = random(0, 60) - 30;
+      int brightness = ((totalcount-100)*255/100) + adjustby;
+      if (brightness < 0) { brightness = 0; }
+      if (brightness > 255) { brightness = 255; }
       strip.setPixelColor(x, strip.Color(brightness, brightness, brightness));
     }
   } else if (totalcount < 4000) { // Color Fader
@@ -74,7 +78,7 @@ void loop() {
     if (start == NUM_LEDS) { start=0; }
   }
 
-  if (totalcount > 10000) {
+  if (totalcount > 6000) {
     totalcount = 0;
   }
   
